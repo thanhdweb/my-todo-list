@@ -5,15 +5,12 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "start": "react-scripts start",
-    "build": "tsc -b && vite build react-scripts build",
-    "test": "react-scripts test",
-    "eject": "react-scripts eject",
+    "build": "tsc -b && vite build",
+    "preview": "vite preview",
     "lint": "eslint --ext js,jsx,ts,tsx src/",
     "lint:fix": "eslint --fix --ext js,jsx,ts,tsx src/",
-    "prettier": "prettier --check \"src/**/(*.jsx|*.js|*.tsx|*.ts|*.css|*.scss)\"",
-    "prettier:fix": "prettier --write \"src/**/(*.jsx|*.js|*.tsx|*.ts|*.css|*.scss)\"",
-    "preview": "vite preview"
+    "prettier": "prettier --check \"src/**/*.{jsx,js,tsx,ts,css,scss}\"",
+    "prettier:fix": "prettier --write \"src/**/*.{jsx,js,tsx,ts,css,scss}\""
   },
   "dependencies": {
     "react": "^19.1.0",
