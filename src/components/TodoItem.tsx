@@ -12,12 +12,12 @@ const TodoItem = ({ todo, onToggleComplete, onEditTodo, onDeleteTodo }: TodoItem
     };
 
     return (
-        <li className="flex items-center gap-8 mb-2">
+        <li className="flex items-center gap-4 md:gap-8 py-2">
             <input
                 type="checkbox"
                 checked={todo.completed}
                 onChange={() => onToggleComplete(todo.id)}
-                className="w-5 h-5 bg-gray-100 border-gray-300 rounded focus:ring-2"
+                className="w-5 h-5 bg-gray-100 border-gray-300 rounded focus:ring-2 shrink-0"
             />
             {isEditing ? (
                 <input
@@ -26,8 +26,13 @@ const TodoItem = ({ todo, onToggleComplete, onEditTodo, onDeleteTodo }: TodoItem
                     onChange={(e) => setEditText(e.target.value)}
                 />
             ) : (
-                <span className={`${todo.completed ? 'line-through' : ''
-                    } block overflow-x-auto whitespace-nowrap truncate max-w-xs`}>{todo.text}</span>
+                <div className="flex-1 min-w-0">
+                    <span
+                        className={`${todo.completed ? 'line-through' : ''} block overflow-x-auto whitespace-nowrap truncate max-w-full`}
+                    >
+                        {todo.text}
+                    </span>
+                </div>
             )}
             {isEditing ? (
                 <button onClick={handleSave} className="text-green-500 ml-auto text-2xl ri-save-3-fill">

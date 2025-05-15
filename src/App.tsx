@@ -8,6 +8,7 @@ import type { Todo } from './types';
 function App() {
   // Khởi tạo state để lưu trữ danh sách todo
   const [todos, setTodos] = useState<Todo[]>([]);
+  const [loaded, setLoaded] = useState(false); //Biến cờ kiểm tra đã load xong dữ liệu chưa
 
   // Hàm thêm todo mới vào danh sách todos
   const handleAddTodo = (text: string) => {
@@ -33,15 +34,16 @@ function App() {
         console.error("Error parsing todos from localStorage:", error);
       }
     }
+    setLoaded(true); //Đánh dấu đã load xong
+
   }, []); // Chỉ chạy một lần khi component được mount
 
   // useEffect để lưu danh sách todos vào localStorage mỗi khi todos thay đổi
   useEffect(() => {
-    if (todos.length > 0) {
-      // Lưu danh sách todos vào localStorage dưới dạng chuỗi JSON
+    if (loaded) {
       localStorage.setItem('todos', JSON.stringify(todos));
     }
-  }, [todos]); // Chạy khi state todos thay đổi
+  }, [todos, loaded]); // Chỉ lưu khi đã load xong
 
   // Hàm thay đổi trạng thái hoàn thành của todo (toggle completed)
   const toggleComplete = (id: number) => {
@@ -64,10 +66,30 @@ function App() {
 
   return (
     <div className='h-screen bg-gradient-to-br from-blue-100 via-purple-200 to-pink-300 relative overflow-hidden'>
-      <div className='px-8 pt-5 md:px-40'>
+      {/* Icon bay bay nền dưới cùng */}
+      <div className="absolute inset-0 z-0 pointer-events-none overflow-hidden">
+        {[...Array(12)].map((_, i) => (
+          <span
+            key={i}
+            className="absolute text-2xl animate-float text-white"
+            style={{
+              left: `${Math.random() * 100}%`,
+              top: `${Math.random() * 100}%`,
+              animationDelay: `${Math.random() * 5}s`,
+              animationDuration: `${10 + Math.random() * 10}s`,
+            }}
+          >
+            {['🐰', '🐱', '🐶', '🐻', '🐼', '🐨', '🐹', '🐥', '🐧', '🐢', '🦊', '🦄'][i % 12]}
+          </span>
+        ))}
+      </div>
+
+      <div className='px-8 pt-12 md:px-40 relative z-10'>
         {/* Header chứa tiêu đề ứng dụng */}
-        <header className='bg-gray-200 p-5 rounded-lg shadow-md'>
-          <h2 className='text-center text-2xl font-bold'>Todo App</h2>
+        <header className='bg-gray-300 p-5 rounded-lg shadow-md'>
+          <h2 className="text-center rounded-md text-3xl font-extrabold bg-gradient-to-r via-purple-600 to-pink-500 text-white">
+            Todo App
+          </h2>
         </header>
 
         {/* Form để thêm todo mới */}
